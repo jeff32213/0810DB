@@ -45,10 +45,13 @@ def find(url):
                 time.sleep(2)
                 print(time.strftime("%H:%M:%S", time.localtime()) + " " + str(url))
 
+                # 成功return true
                 return True
             except Exception as ex:
                 time.sleep(2)
                 print(time.strftime("%H:%M:%S", time.localtime()) + " error " + str(url))
+
+                # 失敗return false
                 return False
         conn.close()
     except Exception as e:
@@ -58,6 +61,7 @@ def find(url):
 def run():
     count = 0
     while(count < len(all_url)):
+        # 若回傳false，就再跑一次
         if(find(all_url[count])):
             count += 1
 
