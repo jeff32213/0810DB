@@ -75,7 +75,9 @@ try:
         command = "select * from [dbo].[stock_list] where [isTaiwan50] = 1"
         cursor.execute(command)
         result = cursor.fetchall()
-        for year in range(2021, 2022):
+
+        # 將2023整年全部上市(櫃)股票資料之API URL存起來
+        for year in range(2023, 2024):
             for month in range(1, 13):
                 for r in result:
                     try:
