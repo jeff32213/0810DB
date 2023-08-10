@@ -42,30 +42,36 @@ def find(url):
                     company_id = url.split("=")[-1]
                     cursor.execute(insert_command, (company_id, data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]))
                     conn.commit()
-                time.sleep(10)
+                time.sleep(2)
                 print(time.strftime("%H:%M:%S", time.localtime()) + " " + str(url))
+
+                return True
             except Exception as ex:
-                time.sleep(10)
+                time.sleep(2)
                 print(time.strftime("%H:%M:%S", time.localtime()) + " error " + str(url))
+                return False
         conn.close()
     except Exception as e:
         print(e)
 
 
 def run():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        executor.map(find, all_url)
+    count = 0
+    while(count < len(all_url)):
+        if(find(all_url[count])):
+            count += 1
+
+all_url = []
+all_stock = []
 
 
 try:  
-    all_url = []
-    all_stock =[]
     conn = pymssql.connect(**db_settings)
     with conn.cursor() as cursor:
         command = "select * from [dbo].[stock_list] where [isTaiwan50] = 1"
         cursor.execute(command)
         result = cursor.fetchall()
-        for year in range(2023, 2024):
+        for year in range(2021, 2022):
             for month in range(1, 13):
                 for r in result:
                     try:
